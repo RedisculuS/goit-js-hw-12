@@ -7,8 +7,13 @@ import "simplelightbox/dist/simple-lightbox.min.css";
 let lightbox;
 const loader = document.getElementById('loader');
 const gallery = document.querySelector('.gallery');
+  const loadmoreBtn = document.querySelector('.load-more');
 
-export function renderImages(images) {
+// loader.className = 'loader';
+// loader.textContent = "Loading..."
+// document.body.appendChild(loader);
+
+export function renderImages(images, append = false) {
 
   const imageMarkup = images
     .map(
@@ -32,8 +37,13 @@ export function renderImages(images) {
     )
     .join('');
     
+  if (append) {
+    gallery.insertAdjacentHTML("beforeend", imageMarkup);
+  } else {
     gallery.innerHTML = imageMarkup;
-
+  }
+    
+  initializeLightbox();
    
 }
 
@@ -44,19 +54,24 @@ export function showError(message) {
   });
 }
 
-export function clearGallery() {
-  gallery.innerHTML = '';
-}
-
 export function showLoader() {
   loader.style.display = 'block';
+  loadmoreBtn.insertAdjacentElement('afterend', loader);
 }
 
 export function hideLoader() {
   loader.style.display = 'none';
 }
 
-export function initializeLightbox() {
+
+export function clearGallery() {
+  gallery.innerHTML = '';
+}
+
+function initializeLightbox() {
+  if (lightbox) {
+    lightbox.destroy();
+  }
   lightbox = new simpleLightbox('.gallery a', {
     captionsData: 'alt',
     captionDelay: 250,
@@ -66,7 +81,13 @@ export function initializeLightbox() {
 export function refreshLightbox() {
   if (lightbox) {
     lightbox.refresh();
-  } else {
-    initializeLightbox();
-  }
+  } 
+}
+
+export function showLoaderBtn() {
+  loadmoreBtn.style.display = 'block';
+}
+
+export function hideLoaderBtn() {
+  loadmoreBtn.style.display = 'none';
 }
