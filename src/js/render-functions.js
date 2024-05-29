@@ -1,20 +1,15 @@
 'use strict';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
-import simpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import simpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 let lightbox;
 const loader = document.getElementById('loader');
 const gallery = document.querySelector('.gallery');
-  const loadmoreBtn = document.querySelector('.load-more');
-
-// loader.className = 'loader';
-// loader.textContent = "Loading..."
-// document.body.appendChild(loader);
+const loadmoreBtn = document.querySelector('.load-more');
 
 export function renderImages(images, append = false) {
-
   const imageMarkup = images
     .map(
       img => `<li class="gallery-item">
@@ -36,15 +31,14 @@ export function renderImages(images, append = false) {
     </li>`
     )
     .join('');
-    
+
   if (append) {
-    gallery.insertAdjacentHTML("beforeend", imageMarkup);
+    gallery.insertAdjacentHTML('beforeend', imageMarkup);
   } else {
     gallery.innerHTML = imageMarkup;
   }
-    
+
   initializeLightbox();
-   
 }
 
 export function showError(message) {
@@ -63,7 +57,6 @@ export function hideLoader() {
   loader.style.display = 'none';
 }
 
-
 export function clearGallery() {
   gallery.innerHTML = '';
 }
@@ -81,7 +74,7 @@ function initializeLightbox() {
 export function refreshLightbox() {
   if (lightbox) {
     lightbox.refresh();
-  } 
+  }
 }
 
 export function showLoaderBtn() {
@@ -90,4 +83,14 @@ export function showLoaderBtn() {
 
 export function hideLoaderBtn() {
   loadmoreBtn.style.display = 'none';
+}
+
+export function smoothScrollToNextGroup() {
+  const galleryItemHeight = document
+    .querySelector('.gallery-item')
+    .getBoundingClientRect().height;
+  window.scrollBy({
+    top: galleryItemHeight * 2,
+    behavior: 'smooth',
+  });
 }

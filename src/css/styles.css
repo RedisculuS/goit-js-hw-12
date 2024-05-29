@@ -106,7 +106,7 @@ button:hover {
 
 .description {
   padding: 4px 20px;
-  display: flex;  
+  display: flex;
   gap: 4px;
   text-align: center;
 }
@@ -120,8 +120,6 @@ a {
   height: 100%;
   object-fit: cover;
 }
-
-
 
 .loader {
   border: 16px solid #f3f3f3;
