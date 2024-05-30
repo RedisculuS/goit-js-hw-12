@@ -43,13 +43,20 @@ async function handleSubmit(event) {
     const { hits, totalHits: total } = await fetchImages(query, page);
     hideLoader();
     totalHits = total;
+
     if (hits.length === 0) {
       showError(
         'Sorry, there are no images matching your search query. Please try again!'
       );
     } else {
       renderImages(hits);
-      showLoaderBtn();
+
+      if (hits.length < 15 || hits.length >= totalHits) {
+        hideLoaderBtn();
+        showEndMessage();
+      } else {
+        showLoaderBtn();
+      }
     }
   } catch (error) {
     hideLoader();
@@ -65,14 +72,13 @@ async function handleLoadMore() {
   try {
     const { hits } = await fetchImages(query, page);
     hideLoader();
+    renderImages(hits, true);
+    refreshLightbox();
+    smoothScrollToNextGroup();
 
     if (hits.length === 0 || (page - 1) * 15 >= totalHits) {
       hideLoaderBtn();
       showError("We're sorry, but you've reached the end of search results.");
-    } else {
-      renderImages(hits, true);
-      refreshLightbox();
-      smoothScrollToNextGroup();
     }
   } catch (error) {
     hideLoader();
