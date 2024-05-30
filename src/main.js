@@ -51,7 +51,7 @@ async function handleSubmit(event) {
     } else {
       renderImages(hits);
 
-      if (hits.length < 15 || hits.length >= totalHits) {
+      if (hits.length < 15 || total <= page * 15) {
         hideLoaderBtn();
         showEndMessage();
       } else {
@@ -76,7 +76,7 @@ async function handleLoadMore() {
     refreshLightbox();
     smoothScrollToNextGroup();
 
-    if (hits.length === 0 || (page - 1) * 15 >= totalHits) {
+    if (hits.length < 15 || totalHits <= page * 15) {
       hideLoaderBtn();
       showError("We're sorry, but you've reached the end of search results.");
     }
